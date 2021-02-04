@@ -1,13 +1,62 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* нормалайз и шрифты */
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+/* вся страница и технические блоки для миксов */
+@import url(./blocks/page/page.css);
+@import url(./blocks/button/button.css);
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+/* шапка сайта */
+@import url(./blocks/header/header.css);
+@import url(./blocks/header/__logo/header__logo.css);
+/* основные секции */
+@import url(./blocks/content/content.css);
+
+@import url(./blocks/profile/profile.css);
+  @import url(./blocks/profile/__avatar-container/profile__avatar-container.css);
+  @import url(./blocks/profile/__avatar/profile__avatar.css);
+  @import url(./blocks/profile/__avatar-edit-button/profile__avatar-edit-button.css);
+  @import url(./blocks/profile/__avatar-edit-button/_visible/profile__avatar-edit-button_visible.css);
+  @import url(./blocks/profile/__info-container/profile__info-container.css);
+  @import url(./blocks/profile/__name-container/profile__name-container.css);
+  @import url(./blocks/profile/__name/profile__name.css);
+  @import url(./blocks/profile/__edit-button/profile__edit-button.css);
+  @import url(./blocks/profile/__job/profile__job.css);
+  @import url(./blocks/profile/__add-button/profile__add-button.css);
+
+@import url(./blocks/cards/cards.css);
+  @import url(./blocks/cards/__list/cards__list.css);
+
+@import url(./blocks/card/card.css);
+  @import url(./blocks/card/__image/card__image.css);
+  @import url(./blocks/card/__alt/card__alt.css);
+  @import url(./blocks/card/__title/card__title.css);
+  @import url(./blocks/card/__like-container/card__like-container.css);
+  @import url(./blocks/card/__like/card__like.css);
+  @import url(./blocks/card/__like/_active/card__like_active.css);
+  @import url(./blocks/card/__like-number/card__like-number.css);
+  @import url(./blocks/card/__trash-button/card__trash-button.css);
+  @import url(./blocks/card/__trash-button/hidden/card__trash-button_hidden.css);
+
+@import url(./blocks/popup/popup.css);
+  @import url(./blocks/popup/_dark/popup_dark.css);
+  @import url(./blocks/popup/_opened/popup_opened.css);
+  @import url(./blocks/popup/__container/popup__container.css);
+  @import url(./blocks/popup/__container/_form/popup__container_form.css);
+  @import url(./blocks/popup/__container/_picture/popup__container_picture.css);
+  @import url(./blocks/popup/__close-button/popup__close-button.css);
+  @import url(./blocks/popup/__form/popup__form.css);
+  @import url(./blocks/popup/__form-title/popup__form-title.css);
+  @import url(./blocks/popup/__form-input/popup__form-input.css);
+  @import url(./blocks/popup/__form-input/_type/_error/popup__form-input_type_error.css);
+  @import url(./blocks/popup/__form-error-container/popup__form-error-container.css);
+  @import url(./blocks/popup/__form-error/popup__form-error.css);
+  @import url(./blocks/popup/__form-error/_visible/popup__form-error_visible.css);
+  @import url(./blocks/popup/__form-submit-button/popup__form-submit-button.css);
+  @import url(./blocks/popup/__form-submit-button/_disabled/popup__form-submit-button_disabled.css);
+  @import url(./blocks/popup/__form-submit-button/_loading/popup__form-submit-button_loading.css);
+  @import url(./blocks/popup/__picture/popup__picture.css);
+  @import url(./blocks/popup/__pic-title/popup__pic-title.css);
+
+/* подвал */
+@import url(./blocks/footer/footer.css);
+@import url(./blocks/footer/__copyright/footer__copyright.css);
