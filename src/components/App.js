@@ -1,26 +1,27 @@
-import React from 'react'
+import React from 'react';
 
-import Header from './Header'
-import Main from './Main'
-import Footer from './Footer'
-import PopupWithForm from './PopupWithForm'
-import ImagePopup from './ImagePopup'
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
+import api from '../utils/api';
+
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
 
 function App() {
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(
-    false
-  )
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
-  const [selectedCard, setSelectedCard] = React.useState({})
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true)
   }
 
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true)
   }
 
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   function handleAddPlaceClick() {
     setAddPlacePopupOpen(true)
   }
@@ -32,9 +33,28 @@ function App() {
     setSelectedCard({})
   }
 
+
+  const [selectedCard, setSelectedCard] = React.useState({});
   function handleCardClick(card) {
     setSelectedCard(card)
   }
+
+  const [currentUser, setCurrentUser] = React.useState({
+    avatar: 'https://github.com/konjvpaljto/mesto/blob/master/src/images/avatar.jpg?raw=true',
+    name: 'Жак Ив-Кусто',
+    about: 'Исследователь океана'
+  });
+
+
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then((data) => {
+        setCurrentUser(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   React.useEffect(() => {
     const onKeypress = (evt) => {
@@ -51,6 +71,7 @@ function App() {
   }, [])
 
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <Header />
       <Main
@@ -147,7 +168,8 @@ function App() {
       </PopupWithForm>
       <ImagePopup onClose={closeAllPopups} card={selectedCard} />
     </div>
+    </CurrentUserContext.Provider>
   )
 }
 
-export default App
+export default App;

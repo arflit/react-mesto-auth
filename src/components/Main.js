@@ -1,31 +1,26 @@
-import React from 'react'
-import api from '../utils/api'
-import Card from './Card'
+import React from 'react';
+import api from '../utils/api';
+import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
-  const { onEditAvatar, onEditProfile, onAddPlace, onCardClick } = props
+  const { onEditAvatar, onEditProfile, onAddPlace, onCardClick } = props;
 
-  const [avatarEditIcon, setAvatarEditIcon] = React.useState(false)
-  const [userName, setUserName] = React.useState('')
-  const [userDescription, setUserDescription] = React.useState('')
-  const [userAvatar, setUserAvatar] = React.useState('')
-  const [cards, serCards] = React.useState([])
-
+  const [avatarEditIcon, setAvatarEditIcon] = React.useState(false);
   function showAvatarEditIcon() {
     setAvatarEditIcon(true)
   }
   function hideAvatarEditIcon() {
     setAvatarEditIcon(false)
   }
+
+  const currentUser = React.useContext(CurrentUserContext);
+
+  const [cards, serCards] = React.useState([]);
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then((values) => {
-        const [userInfo, initialCards] = values
-        const { name, about, avatar } = userInfo
-        setUserName(name)
-        setUserDescription(about)
-        setUserAvatar(avatar)
-        serCards(initialCards)
+    api.getInitialCards()
+      .then((data) => {
+        serCards(data)
       })
       .catch((err) => {
         console.log(err)
@@ -37,7 +32,7 @@ function Main(props) {
       <section className="profile">
         <div className="profile__avatar-container">
           <img
-            src={userAvatar}
+            src={currentUser.avatar}
             alt="Аватар"
             className="profile__avatar"
             onMouseEnter={showAvatarEditIcon}
@@ -52,14 +47,14 @@ function Main(props) {
         </div>
         <div className="profile__info-container">
           <div className="profile__name-container">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{currentUser.name}</h1>
             <button
               type="button"
               className="profile__edit-button button"
               onClick={onEditProfile}
             ></button>
           </div>
-          <p className="profile__about">{userDescription}</p>
+          <p className="profile__about">{currentUser.about}</p>
         </div>
         <button
           type="button"
@@ -77,4 +72,4 @@ function Main(props) {
     </main>
   )
 }
-export default Main
+export default Main;

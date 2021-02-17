@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 function ImagePopup(props) {
-  const { card, onClose } = props
-  const { _id, link, name } = card
+  const { card, onClose } = props;
+  const { _id, link, name } = card;
 
   function handleOverlayClose(evt) {
     if (evt.target.classList.contains('popup')) {onClose()}
@@ -10,7 +10,7 @@ function ImagePopup(props) {
 
   return (
     <div
-      className={`popup popup_dark ${_id ? 'popup_opened' : ''}`}
+      className={`popup popup_dark ${_id && 'popup_opened'}`}
       id="popup-bigpicture"
       onClick={handleOverlayClose}
     >
@@ -27,4 +27,4 @@ function ImagePopup(props) {
   )
 }
 
-export default ImagePopup
+export default ImagePopup;

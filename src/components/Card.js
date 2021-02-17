@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 function Card(props) {
-  const { card, onCardClick } = props
-  const { name, link, likes } = card
+  const { card, onCardClick } = props;
+  const { name, link, likes } = card;
 
   function handleClick() {
     onCardClick(card)
@@ -31,4 +31,4 @@ function Card(props) {
   )
 }
 
-export default Card
+export default Card;
