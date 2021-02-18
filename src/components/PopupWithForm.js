@@ -1,7 +1,7 @@
 import React from 'react';
 
 function PopupWithForm(props) {
-  const { isOpen, onClose, name, title, children, submitText} = props;
+  const { isOpen, onClose, onSubmit, name, title, submitText, children } = props;
 
   function handleOverlayClose(evt) {
     if (evt.target.classList.contains('popup')) {onClose()}
@@ -15,7 +15,7 @@ function PopupWithForm(props) {
           className="popup__close-button button"
           onClick={onClose}
         ></button>
-        <form className="popup__form" name={name} noValidate>
+        <form className="popup__form" name={name} onSubmit={onSubmit} noValidate>
           <h2 className="popup__form-title">{title}</h2>
           {children}
           <button type="submit" className="popup__form-submit-button button">
