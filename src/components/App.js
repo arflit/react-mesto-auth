@@ -52,8 +52,8 @@ function App() {
         setCurrentUser(data)
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(`Не удалось загрузить данные пользователя: ${err}`);
+      });
   }, [])
 
   React.useEffect(() => {
