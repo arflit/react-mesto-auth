@@ -9,6 +9,7 @@ import api from '../utils/api'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import EditProfilePopup from './EditProfilePopup'
+import EditAvatarPopup from './EditAvatarPopup'
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
@@ -61,6 +62,24 @@ function App() {
       })
   }
 
+  function handleUpdateAvatar(data) {
+    api.setNewAvatar(data.avatar)
+    .then(() => {
+      setCurrentUser({
+        avatar: data.avatar,
+        name: currentUser.name,
+        about: currentUser.about
+      })
+    })
+    .then(() => {
+      closeAllPopups()
+    })
+    .catch((err) => {
+      console.log(`Не удалось обновить аватар: ${err}`)
+    })
+
+  }
+
   React.useEffect(() => {
     api
       .getUserInfo()
@@ -75,7 +94,8 @@ function App() {
   React.useEffect(() => {
     const onKeypress = (evt) => {
       if (evt.key === 'Escape') {
-        closeAllPopups()
+        closeAllPopups();
+        console.log('zhopa');
       }
     }
 
@@ -86,6 +106,74 @@ function App() {
     }
   }, [])
 
+  const [cards, setCards] = React.useState([])
+  React.useEffect(() => {
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some((i) => i._id === currentUser._id)
+
+    function updateCards(newCard) {
+      // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+      const newCards = cards.map((c) => (c._id === card._id ? newCard : c))
+      // Обновляем стейт
+      setCards(newCards)
+    }
+
+    if (isLiked) {
+      api
+        .removeCardLike(card._id)
+        .then((newCard) => {
+          updateCards(newCard)
+        })
+        .catch((err) => {
+          console.log(`Не удалось поставить лайк: ${err}`)
+        })
+    } else {
+      api
+        .addCardLike(card._id)
+        .then((newCard) => {
+          updateCards(newCard)
+        })
+        .catch((err) => {
+          console.log(`Не удалось снять лайк: ${err}`)
+        })
+    }
+  }
+
+  function handleCardDelete(card) {
+    const isOwn = card.owner._id === currentUser._id
+    if (isOwn) {
+      api.removeCard(card._id)
+      .then(() => {
+          const newCards = cards.filter((c) => {
+            if (c._id === card._id) {
+              return false
+            } else {
+              return true
+            }
+          })
+          setCards(newCards)
+        })
+        .catch((err) => {
+          console.log(`Не удалось удалить карточку: ${err}`)
+        })
+    } else {
+      console.log(
+        `Не удалось удалить карточку: вы не хозяин. Нечего на скрытые кнопки жать!`
+      )
+    }
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -94,28 +182,18 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
+          cards={cards}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
-        <PopupWithForm
+
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          title="Обновить аватар"
-          name="popup-avatar"
-          submitText="Сохранить"
-        >
-          <input
-            type="url"
-            className="popup__form-input"
-            id="avatar"
-            name="avatar"
-            placeholder="Ссылка на аватар"
-            required
-          />
-          <div className="popup__form-error-container">
-            <span className="avatar-error popup__form-error"></span>
-          </div>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
