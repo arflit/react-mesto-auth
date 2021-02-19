@@ -1,11 +1,10 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
+import React from 'react'
+import PopupWithForm from './PopupWithForm'
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function EditProfilePopup(props) {
-  const { isOpen, onClose, onUpdateUser } = props;
-  const currentUser = React.useContext(CurrentUserContext);
+  const { isOpen, onClose, onUpdateUser } = props
+  const currentUser = React.useContext(CurrentUserContext)
 
   const [name, setName] = React.useState('')
   function handleChangeName(e) {
@@ -18,18 +17,18 @@ function EditProfilePopup(props) {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     onUpdateUser({
       name,
       about: description,
-    });
+    })
   }
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
+    setName(currentUser.name)
+    setDescription(currentUser.about)
+  }, [currentUser])
 
   return (
     <PopupWithForm
@@ -66,7 +65,6 @@ function EditProfilePopup(props) {
         maxLength="200"
         value={description}
         onChange={handleChangeDescription}
-
       />
       <div className="popup__form-error-container">
         <span className="about-error popup__form-error"></span>
@@ -75,4 +73,4 @@ function EditProfilePopup(props) {
   )
 }
 
-export default EditProfilePopup;
+export default EditProfilePopup

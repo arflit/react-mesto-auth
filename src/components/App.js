@@ -3,13 +3,14 @@ import React from 'react'
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer'
-import PopupWithForm from './PopupWithForm'
 import ImagePopup from './ImagePopup'
+import EditProfilePopup from './EditProfilePopup'
+import EditAvatarPopup from './EditAvatarPopup'
+import AddPlacePopup from './AddPlacePopup'
+
 import api from '../utils/api'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
-import EditProfilePopup from './EditProfilePopup'
-import EditAvatarPopup from './EditAvatarPopup'
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
@@ -63,21 +64,21 @@ function App() {
   }
 
   function handleUpdateAvatar(data) {
-    api.setNewAvatar(data.avatar)
-    .then(() => {
-      setCurrentUser({
-        avatar: data.avatar,
-        name: currentUser.name,
-        about: currentUser.about
+    api
+      .setNewAvatar(data.avatar)
+      .then(() => {
+        setCurrentUser({
+          avatar: data.avatar,
+          name: currentUser.name,
+          about: currentUser.about,
+        })
       })
-    })
-    .then(() => {
-      closeAllPopups()
-    })
-    .catch((err) => {
-      console.log(`Не удалось обновить аватар: ${err}`)
-    })
-
+      .then(() => {
+        closeAllPopups()
+      })
+      .catch((err) => {
+        console.log(`Не удалось обновить аватар: ${err}`)
+      })
   }
 
   React.useEffect(() => {
@@ -94,8 +95,8 @@ function App() {
   React.useEffect(() => {
     const onKeypress = (evt) => {
       if (evt.key === 'Escape') {
-        closeAllPopups();
-        console.log('zhopa');
+        closeAllPopups()
+        console.log('zhopa')
       }
     }
 
@@ -153,8 +154,9 @@ function App() {
   function handleCardDelete(card) {
     const isOwn = card.owner._id === currentUser._id
     if (isOwn) {
-      api.removeCard(card._id)
-      .then(() => {
+      api
+        .removeCard(card._id)
+        .then(() => {
           const newCards = cards.filter((c) => {
             if (c._id === card._id) {
               return false
@@ -172,6 +174,20 @@ function App() {
         `Не удалось удалить карточку: вы не хозяин. Нечего на скрытые кнопки жать!`
       )
     }
+  }
+
+  function handleAddPlaceSubmit(data) {
+    api.addNewCard(data)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .then(() => {
+        closeAllPopups()
+      })
+      .catch((err) => {
+        console.log(`Не удалось добавить карточку: ${err}`)
+      })
+
   }
 
   return (
@@ -199,38 +215,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        <PopupWithForm
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          title="Новое место"
-          name="popup-addcard"
-          submitText="Сохранить"
-        >
-          <input
-            type="text"
-            className="popup__form-input"
-            id="place"
-            name="place"
-            placeholder="Название"
-            required
-            minLength="2"
-            maxLength="30"
-          />
-          <div className="popup__form-error-container">
-            <span className="place-error popup__form-error"></span>
-          </div>
-          <input
-            type="url"
-            className="popup__form-input"
-            id="link"
-            name="link"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <div className="popup__form-error-container">
-            <span className="link-error popup__form-error"></span>
-          </div>
-        </PopupWithForm>
+          onAddCard={handleAddPlaceSubmit}
+        />
         <ImagePopup onClose={closeAllPopups} card={selectedCard} />
       </div>
     </CurrentUserContext.Provider>
