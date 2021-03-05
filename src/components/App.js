@@ -22,7 +22,7 @@ function App() {
     setEditAvatarPopupOpen(true)
   }
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
 
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
   function handleEditProfileClick() {
@@ -196,51 +196,54 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Switch>
-        <Route path="/login">
-          <div className="loginContainer">
-            <Login  />
+      <div class="page">
+        <Header />
+        <Switch>
+          <Route path="/login">
+            <div className="loginContainer">
+              <Login  />
+            </div>
+          </Route>
+          <Route path="/register">
+            <div className="registerContainer">
+              <Register />
+            </div>
+          </Route>
+          <Route path="/cards">
+            <div className="page">
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              cards={cards}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+            />
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+            />
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddCard={handleAddPlaceSubmit}
+            />
+            <ImagePopup onClose={closeAllPopups} card={selectedCard} />
           </div>
-        </Route>
-        <Route path="/register">
-          <div className="registerContainer">
-            <Register />
-          </div>
-        </Route>
-
-        <Route path="/">
-          <div className="page">
-          <Header />
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            cards={cards}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />
-          <Footer />
-
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddCard={handleAddPlaceSubmit}
-          />
-          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-        </div>
-        </Route>
-      </Switch>
+          </Route>
+          <Route exact path="/">
+            {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/login" />}
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
     </CurrentUserContext.Provider>
   )
 }
