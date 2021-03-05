@@ -41,7 +41,7 @@ function Main(props) {
               type="button"
               className="profile__edit-button button"
               onClick={onEditProfile}
-            ></button>
+            />
           </div>
           <p className="profile__about">{currentUser.about}</p>
         </div>
@@ -49,7 +49,7 @@ function Main(props) {
           type="button"
           className="profile__add-button button"
           onClick={onAddPlace}
-        ></button>
+        />
       </section>
       <section className="cards">
         <ul className="cards__list">

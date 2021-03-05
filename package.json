@@ -1,5 +1,7 @@
 {
   "name": "mesto-react",
+  "author": "Arkady Flitman",
+  "description": "учебный проект, Яндекс.Практикум",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
