@@ -71,6 +71,7 @@
   @import url(./blocks/popup/__pic-title/popup__pic-title.css);
   @import url(./blocks/popup/__tooltip-image/popup__tooltip-image.css);
   @import url(./blocks/popup/__tooltip-title/popup__tooltip-title.css);
+  @import url(./blocks/popup/__tooltip-message/popup__tooltip-message.css);
 
 /* подвал */
 @import url(./blocks/footer/footer.css);

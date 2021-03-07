@@ -1,14 +1,10 @@
 import React from 'react'
-import PopupWithTooltip from './PopupWithTooltip';
-import { authApi } from '../utils/api'
-import { useHistory } from 'react-router-dom';
 
 
 function Login(props) {
 
-  const { isOpen, onClose, openTooltip, onSignIn } = props;
+  const { onSignIn } = props;
 
-  const history = useHistory();
   const [email, setEmail] = React.useState('')
   function handleChangeEmail(e) {
     setEmail(e.target.value)
@@ -22,20 +18,9 @@ function Login(props) {
   function handleSubmit(e) {
     e.preventDefault();
     console.log('делаю запрос')
-    authApi.signIn({
+    onSignIn({
       password,
       email
-    })
-    .then((data) => {
-      localStorage.setItem('token', data.token);
-      onSignIn(email)
-    })
-    .then(() => {
-        history.push('./cards')
-    })
-    .catch((err) => {
-      console.log(err)
-      openTooltip()
     })
   }
 
@@ -75,11 +60,6 @@ function Login(props) {
           </button>
         </form>
       </div>
-      <PopupWithTooltip
-      isOpen={isOpen}
-      onClose={onClose}
-      result={false}
-      />
     </main>
   )
 }

@@ -1,13 +1,10 @@
 import React from 'react';
-import PopupWithTooltip from './PopupWithTooltip';
-import { authApi } from '../utils/api'
+import { Link } from 'react-router-dom';
 
 
 function Register(props) {
 
-  const { isOpen, onClose, openTooltip } = props;
-
-  const [result, setResult] = React.useState('false');
+  const { onSignUp } = props;
 
   const [email, setEmail] = React.useState('')
   function handleChangeEmail(e) {
@@ -22,19 +19,9 @@ function Register(props) {
   function handleSubmit(e) {
     e.preventDefault();
     console.log('делаю запрос')
-    authApi.signUp({
+    onSignUp({
       password,
       email
-    })
-    .then((data) => {
-      console.log(data)
-      setResult(true)
-      openTooltip()
-    })
-    .catch((err) => {
-      console.log(err)
-      setResult(false)
-      openTooltip()
     })
   }
 
@@ -72,14 +59,9 @@ function Register(props) {
           <button type="submit" className="login-form__button button" >
             Зарегистрироваться
           </button>
-          <a className="login-form__bottomlink button" href='/sign-in'>Уже зарегистрированы? Войти</a>
+          <Link className="login-form__bottomlink button" to="/sign-in">Уже зарегистрированы? Войти</Link>
         </form>
       </div>
-      <PopupWithTooltip
-      isOpen={isOpen}
-      onClose={onClose}
-      result={result}
-      />
     </main>
   )
 }
