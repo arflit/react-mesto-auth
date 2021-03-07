@@ -18,12 +18,12 @@ function Header(props) {
         {loggedIn ?
         <>
           <p className="header__mail">{email}</p>
-          <Link to="/sign-in" className="header__link button header__link_shadow" onClick={onSignOut}>Выйти</Link>
+          <Link to={process.env.PUBLIC_URL + '/sign-in'} className="header__link button header__link_shadow" onClick={onSignOut}>Выйти</Link>
         </>
         :
         <>
-        <NavLink to="/sign-up" className="header__link button" activeClassName="header__link_hidden" >Регистрация</NavLink>
-        <NavLink to="/sign-in" className="header__link button" activeClassName="header__link_hidden" >Войти</NavLink>
+        <NavLink to={process.env.PUBLIC_URL + '/sign-up'} className="header__link button" activeClassName="header__link_hidden" >Регистрация</NavLink>
+        <NavLink to={process.env.PUBLIC_URL + '/sign-in'} className="header__link button" activeClassName="header__link_hidden" >Войти</NavLink>
         </>
         }
       </div>

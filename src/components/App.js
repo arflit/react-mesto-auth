@@ -76,6 +76,20 @@ function App() {
     setSelectedCard(card)
   }
 
+  React.useEffect(() => {
+    const onKeypress = (evt) => {
+      if (evt.key === 'Escape') {
+        closeAllPopups()
+      }
+    }
+
+    document.addEventListener('keydown', onKeypress)
+
+    return () => {
+      document.removeEventListener('keydown', onKeypress)
+    }
+  }, [])
+
   //функции регистрации и авторизации
   function onSignUp(data) {
     authApi
@@ -103,7 +117,7 @@ function App() {
         setEmail(data.email)
       })
       .then(() => {
-        history.push('./cards')
+        history.push(process.env.PUBLIC_URL + '/cards')
       })
       .catch((err) => {
         handleTooltipOpen(false, `Не получилось войти: ${err}`)
@@ -229,7 +243,7 @@ function App() {
           setLoggedIn(true)
         })
         .then(() => {
-          history.push('./cards')
+          history.push(process.env.PUBLIC_URL + '/cards')
         })
         .catch((err) => {
           setLoggedIn(false)
@@ -247,21 +261,7 @@ function App() {
       .catch((err) => {
         handleTooltipOpen(false, `Не удалось загрузить данные пользователя: ${err}`)
       })
-  }, [])
-
-  React.useEffect(() => {
-    const onKeypress = (evt) => {
-      if (evt.key === 'Escape') {
-        closeAllPopups()
-      }
-    }
-
-    document.addEventListener('keydown', onKeypress)
-
-    return () => {
-      document.removeEventListener('keydown', onKeypress)
-    }
-  }, [])
+  }, [email])
 
   React.useEffect(() => {
     api
@@ -272,21 +272,21 @@ function App() {
       .catch((err) => {
         handleTooltipOpen(false, `Не удалось загрузить карточки с сервера: ${err}`)
       })
-  }, [])
+  }, [email])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header email={email} loggedIn={loggedIn} onSignOut={onSignOut} />
         <Switch>
-          <Route path="/sign-in">
+          <Route path={process.env.PUBLIC_URL + '/sign-in'}>
             <Login onSignIn={onSignIn} />
           </Route>
-          <Route path="/sign-up">
+          <Route path={process.env.PUBLIC_URL + '/sign-up'}>
             <Register onSignUp={onSignUp} />
           </Route>
           <ProtectedRoute
-            path="/cards"
+            path={process.env.PUBLIC_URL + '/cards'}
             loggedIn={loggedIn}
             onEditProfile={handleProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -297,8 +297,8 @@ function App() {
             onCardDelete={handleCardDelete}
             component={Main}
           />
-          <Route path="/">
-            {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
+          <Route path={process.env.PUBLIC_URL + '/'}>
+            {loggedIn ? <Redirect to={process.env.PUBLIC_URL + '/cards'} /> : <Redirect to={process.env.PUBLIC_URL + '/sign-in'} />}
           </Route>
         </Switch>
         <Footer />
