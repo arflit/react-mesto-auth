@@ -113,7 +113,6 @@ function App() {
   function onSignOut() {
     setLoggedIn(false)
     localStorage.removeItem('token')
-    console.log('разлогиниться')
   }
 
   //функции управления данными пользователя
@@ -226,7 +225,6 @@ function App() {
       authApi
         .checkToken()
         .then((data) => {
-          console.log(data.data.email)
           setEmail(data.data.email)
           setLoggedIn(true)
         })
@@ -235,7 +233,7 @@ function App() {
         })
         .catch((err) => {
           setLoggedIn(false)
-          console.log(`Не удалось авторизоваться: ${err}`)
+          handleTooltipOpen(false, `Не удалось авторизоваться: ${err}`)
         })
     }
   }, [])
@@ -247,7 +245,7 @@ function App() {
         setCurrentUser(data)
       })
       .catch((err) => {
-        console.log(`Не удалось загрузить данные пользователя: ${err}`)
+        handleTooltipOpen(false, `Не удалось загрузить данные пользователя: ${err}`)
       })
   }, [])
 
@@ -272,7 +270,7 @@ function App() {
         setCards(data)
       })
       .catch((err) => {
-        console.log(err)
+        handleTooltipOpen(false, `Не удалось загрузить карточки с сервера: ${err}`)
       })
   }, [])
 
