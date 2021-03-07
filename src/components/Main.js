@@ -1,10 +1,30 @@
 import React from 'react'
 import Card from './Card'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import ImagePopup from './ImagePopup'
+import EditProfilePopup from './EditProfilePopup'
+import EditAvatarPopup from './EditAvatarPopup'
+import AddPlacePopup from './AddPlacePopup'
 
 function Main(props) {
+  const {
+    onEditProfile,
+    onAddPlace,
+    onEditAvatar,
+    cards,
+    onCardClick,
+    onCardLike,
+    onCardDelete,
+    isEditAvatarPopupOpen,
+    onUpdateAvatar,
+    isEditProfilePopupOpen,
+    onUpdateUser,
+    isAddPlacePopupOpen,
+    onAddCard,
+    selectedCard,
+    onClose,
+  } = props
 
-  const { onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onCardLike, onCardDelete } = props
 
   const [avatarEditIcon, setAvatarEditIcon] = React.useState(false)
   function showAvatarEditIcon() {
@@ -64,6 +84,22 @@ function Main(props) {
           ))}
         </ul>
       </section>
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={onClose}
+        onUpdateAvatar={onUpdateAvatar}
+      />
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onClose={onClose}
+        onUpdateUser={onUpdateUser}
+      />
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
+        onClose={onClose}
+        onAddCard={onAddCard}
+      />
+      <ImagePopup onClose={onClose} card={selectedCard} />
     </main>
   )
 }

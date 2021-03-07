@@ -1,30 +1,64 @@
 import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 
 
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer'
-import ImagePopup from './ImagePopup'
-import EditProfilePopup from './EditProfilePopup'
-import EditAvatarPopup from './EditAvatarPopup'
-import AddPlacePopup from './AddPlacePopup'
-import Login from './Login.js';
-import Register from './Register.js';
+import Login from './Login.js'
+import Register from './Register.js'
 
-import api from '../utils/api'
-
+import { api, authApi } from '../utils/api'
+import ProtectedRoute from "./ProtectedRoute";
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function App() {
+
+  const history = useHistory();
+
+  const [loggedIn, setLoggedIn] = React.useState(true)
+
+  const [email, setEmail] = React.useState('');
+
+  function onSignOut() {
+    setLoggedIn(false);
+    localStorage.removeItem('token');
+    console.log('разлогиниться')
+  }
+
+  function onSignIn(email) {
+    setLoggedIn(true);
+    setEmail(email)
+  }
+
+  React.useEffect(() => {
+    authApi
+      .checkToken()
+      .then((data) => {
+        console.log(data)
+        setEmail(data.email)
+        setLoggedIn(true)
+      })
+      .then(() => {})
+      .catch((err) => {
+        setLoggedIn(false)
+        console.log(`Не удалось авторизоваться: ${err}`)
+      })
+  }, [])
+
+  const [isTooltipOpen, setTooltipOpen] = React.useState(false)
+  function handleTooltipOpen() {
+    setTooltipOpen(true)
+  }
+
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true)
   }
 
-  const [loggedIn, setLoggedIn] = React.useState(true);
-
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(
+    false
+  )
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true)
   }
@@ -38,6 +72,7 @@ function App() {
     setEditAvatarPopupOpen(false)
     setEditProfilePopupOpen(false)
     setAddPlacePopupOpen(false)
+    setTooltipOpen(false)
     setSelectedCard({})
   }
 
@@ -100,7 +135,6 @@ function App() {
     const onKeypress = (evt) => {
       if (evt.key === 'Escape') {
         closeAllPopups()
-        console.log('zhopa')
       }
     }
 
@@ -181,9 +215,10 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
-    api.addNewCard(data)
+    api
+      .addNewCard(data)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard, ...cards])
       })
       .then(() => {
         closeAllPopups()
@@ -191,55 +226,44 @@ function App() {
       .catch((err) => {
         console.log(`Не удалось добавить карточку: ${err}`)
       })
-
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div class="page">
-        <Header />
+      <div className="page">
+        <Header
+        email={email}
+        loggedIn={loggedIn}
+        onSignOut={onSignOut} />
         <Switch>
-          <Route path="/login">
-            <div className="loginContainer">
-              <Login  />
-            </div>
+          <Route path="/sign-in">
+            <Login isOpen={isTooltipOpen} onClose={closeAllPopups} openTooltip={handleTooltipOpen} onSignIn={onSignIn} />
           </Route>
-          <Route path="/register">
-            <div className="registerContainer">
-              <Register />
-            </div>
+          <Route path="/sign-up">
+            <Register isOpen={isTooltipOpen} onClose={closeAllPopups} openTooltip={handleTooltipOpen} />
           </Route>
-          <Route path="/cards">
-            <div className="page">
-            <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              cards={cards}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-            />
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-            />
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddCard={handleAddPlaceSubmit}
-            />
-            <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-          </div>
-          </Route>
-          <Route exact path="/">
-            {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/login" />}
+          <ProtectedRoute
+            path="/cards"
+            loggedIn={loggedIn}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            cards={cards}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+            onUpdateAvatar={handleUpdateAvatar}
+            isEditProfilePopupOpen={isEditProfilePopupOpen}
+            onUpdateUser={handleUpdateUser}
+            isAddPlacePopupOpen={isAddPlacePopupOpen}
+            onAddCard={handleAddPlaceSubmit}
+            selectedCard={selectedCard}
+            onClose={closeAllPopups}
+            component={Main}
+          />
+          <Route path="/">
+            {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
           </Route>
         </Switch>
         <Footer />

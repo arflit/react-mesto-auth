@@ -1,7 +1,11 @@
 import React from 'react';
 import logo from '../images/logo-white.svg';
+import { NavLink } from 'react-router-dom';
 
-function Header() {
+
+function Header(props) {
+  const { email, loggedIn, onSignOut } = props;
+
   return (
     <header className="header">
       <img
@@ -9,6 +13,20 @@ function Header() {
         alt="Логотип: надпись Mesto.Russia"
         className="header__logo"
       />
+      <div className="header__link-container">
+
+        {loggedIn ?
+        <>
+          <p className="header__mail">{email}</p>
+          <NavLink to="/sign-in" className="header__link button header__link_shadow" activeClassName="header__link_hidden" onClick={onSignOut}>Выйти</NavLink>
+        </>
+        :
+        <>
+        <NavLink to="/sign-up" className="header__link button" activeClassName="header__link_hidden" >Регистрация</NavLink>
+        <NavLink to="/sign-in" className="header__link button" activeClassName="header__link_hidden" >Войти</NavLink>
+        </>
+        }
+      </div>
     </header>
   )
 }

@@ -4,11 +4,15 @@ class Api {
     this._headers = headers
   }
 
-  _apiRequest(urlEnd, method, body) {
+  _header(customHeaders) {
+    if (customHeaders) {return customHeaders} else {return this._headers}
+  }
+
+  _apiRequest(urlEnd, method, body, customHeaders) {
     if (method === 'GET') {
       return fetch(`${this._baseUrl}${urlEnd}`, {
         method: method,
-        headers: this._headers,
+        headers: this._header(customHeaders),
       }).then((res) => {
         if (res.ok) {
           return res.json()
@@ -18,7 +22,7 @@ class Api {
     } else {
       return fetch(`${this._baseUrl}${urlEnd}`, {
         method: method,
-        headers: this._headers,
+        headers: this._header(customHeaders),
         body: JSON.stringify(body),
       }).then((res) => {
         if (res.ok) {
@@ -27,6 +31,27 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`)
       })
     }
+  }
+
+  signUp(data) {
+    return this._apiRequest('/signup', 'POST', {
+      password: data.password,
+      email: data.email
+    })
+  }
+
+  signIn(data) {
+    return this._apiRequest('/signin', 'POST', {
+      password: data.password,
+      email: data.email
+    })
+  }
+
+  checkToken() {
+    return this._apiRequest('/users/me', 'GET', null, {
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${localStorage.getItem('token')}`
+    })
   }
 
   getUserInfo() {
@@ -70,7 +95,7 @@ class Api {
   }
 }
 
-const api = new Api({
+export const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-19',
   headers: {
     authorization: '0ea9232f-20d8-4231-b26e-2828aaef49f5',
@@ -78,4 +103,9 @@ const api = new Api({
   },
 })
 
-export default api;
+export const authApi = new Api({
+  baseUrl: 'https://auth.nomoreparties.co',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+})
