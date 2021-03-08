@@ -13,6 +13,7 @@ import ImagePopup from './ImagePopup'
 import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
+import SubmitPopup from './SubmitPopup'
 
 import { api, authApi } from '../utils/api'
 import ProtectedRoute from './ProtectedRoute'
@@ -43,6 +44,7 @@ function App() {
   const [isProfilePopupOpen, setProfilePopupOpen] = React.useState(false)
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
   const [selectedCard, setSelectedCard] = React.useState({})
+  const [isSubmitOpen, setSubmitOpen] = React.useState(false)
 
   //функции управления попапами
   function closeAllPopups() {
@@ -52,6 +54,7 @@ function App() {
     setTooltipOpen(false)
     setTooltipMessage('')
     setSelectedCard({})
+    setSubmitOpen(false)
   }
 
   function handleTooltipOpen(result, message) {
@@ -74,6 +77,15 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card)
+  }
+
+  function onSubmit() {
+    return Promise.resolve()
+  }
+
+  function submit() {
+    setSubmitOpen(true)
+    
   }
 
   React.useEffect(() => {
@@ -186,6 +198,9 @@ function App() {
   function handleCardDelete(card) {
     const isOwn = card.owner._id === currentUser._id
     if (isOwn) {
+      submit({
+
+      })
       api
         .removeCard(card._id)
         .then(() => {
@@ -337,6 +352,10 @@ function App() {
           onAddCard={handleAddPlace}
         />
         <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+        <SubmitPopup
+        isOpen={isSubmitOpen}
+        onClose={closeAllPopups}
+        onSubmit={onSubmit} />
       </div>
       </Switch>
     </CurrentUserContext.Provider>
