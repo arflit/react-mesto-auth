@@ -289,6 +289,8 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Switch>
+      <div className="page">
+        <Header email={email} loggedIn={loggedIn} onSignOut={onSignOut} />
 
           <Route path="/sign-in">
             <Login onSignIn={onSignIn} />
@@ -312,6 +314,30 @@ function App() {
             {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
           </Route>
 
+        <Footer />
+        <PopupWithTooltip
+          isOpen={isTooltipOpen}
+          onClose={closeAllPopups}
+          result={tooltipResult}
+          message={tooltipMessage}
+        />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <EditProfilePopup
+          isOpen={isProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddCard={handleAddPlace}
+        />
+        <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+      </div>
       </Switch>
     </CurrentUserContext.Provider>
   )
