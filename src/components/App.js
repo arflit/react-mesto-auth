@@ -85,7 +85,7 @@ function App() {
 
   function submit() {
     setSubmitOpen(true)
-    
+
   }
 
   React.useEffect(() => {
@@ -198,9 +198,6 @@ function App() {
   function handleCardDelete(card) {
     const isOwn = card.owner._id === currentUser._id
     if (isOwn) {
-      submit({
-
-      })
       api
         .removeCard(card._id)
         .then(() => {
