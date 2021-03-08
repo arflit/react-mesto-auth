@@ -243,7 +243,7 @@ function App() {
           setLoggedIn(true)
         })
         .then(() => {
-          history.push(process.env.PUBLIC_URL + '/cards')
+          history.push('/cards')
         })
         .catch((err) => {
           setLoggedIn(false)
@@ -279,14 +279,14 @@ function App() {
       <div className="page">
         <Header email={email} loggedIn={loggedIn} onSignOut={onSignOut} />
         <Switch>
-          <Route path={process.env.PUBLIC_URL + '/sign-in'}>
+          <Route path='/sign-in'>
             <Login onSignIn={onSignIn} />
           </Route>
-          <Route path={process.env.PUBLIC_URL + '/sign-up'}>
+          <Route path='/sign-up'>
             <Register onSignUp={onSignUp} />
           </Route>
           <ProtectedRoute
-            path={process.env.PUBLIC_URL + '/cards'}
+            path='/cards'
             loggedIn={loggedIn}
             onEditProfile={handleProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -297,8 +297,8 @@ function App() {
             onCardDelete={handleCardDelete}
             component={Main}
           />
-          <Route path={process.env.PUBLIC_URL + '/'}>
-            {loggedIn ? <Redirect to={process.env.PUBLIC_URL + '/cards'} /> : <Redirect to={process.env.PUBLIC_URL + '/sign-in'} />}
+          <Route path='/'>
+            {loggedIn ? <Redirect to='/cards' /> : <Redirect to='/sign-in' />}
           </Route>
         </Switch>
         <Footer />
