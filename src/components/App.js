@@ -117,7 +117,7 @@ function App() {
         setEmail(data.email)
       })
       .then(() => {
-        history.push(process.env.PUBLIC_URL + '/cards')
+        history.push('/cards')
       })
       .catch((err) => {
         handleTooltipOpen(false, `Не получилось войти: ${err}`)
@@ -141,7 +141,10 @@ function App() {
       })
       .catch((err) => {
         closeAllPopups()
-        handleTooltipOpen(false, `Не удалось обновить данные пользователя: ${err}`)
+        handleTooltipOpen(
+          false,
+          `Не удалось обновить данные пользователя: ${err}`
+        )
       })
   }
 
@@ -199,7 +202,10 @@ function App() {
           handleTooltipOpen(false, `Не удалось удалить карточку: ${err}`)
         })
     } else {
-      handleTooltipOpen(false, `Не удалось удалить карточку: вы не хозяин. Нечего на скрытые кнопки жать!`)
+      handleTooltipOpen(
+        false,
+        `Не удалось удалить карточку: вы не хозяин. Нечего на скрытые кнопки жать!`
+      )
     }
   }
 
@@ -259,7 +265,10 @@ function App() {
         setCurrentUser(data)
       })
       .catch((err) => {
-        handleTooltipOpen(false, `Не удалось загрузить данные пользователя: ${err}`)
+        handleTooltipOpen(
+          false,
+          `Не удалось загрузить данные пользователя: ${err}`
+        )
       })
   }, [email])
 
@@ -270,7 +279,10 @@ function App() {
         setCards(data)
       })
       .catch((err) => {
-        handleTooltipOpen(false, `Не удалось загрузить карточки с сервера: ${err}`)
+        handleTooltipOpen(
+          false,
+          `Не удалось загрузить карточки с сервера: ${err}`
+        )
       })
   }, [email])
 
@@ -279,14 +291,14 @@ function App() {
       <div className="page">
         <Header email={email} loggedIn={loggedIn} onSignOut={onSignOut} />
         <Switch>
-          <Route path='/sign-in'>
+          <Route path="/sign-in">
             <Login onSignIn={onSignIn} />
           </Route>
-          <Route path='/sign-up'>
+          <Route path="/sign-up">
             <Register onSignUp={onSignUp} />
           </Route>
           <ProtectedRoute
-            path='/cards'
+            path="/cards"
             loggedIn={loggedIn}
             onEditProfile={handleProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -297,8 +309,8 @@ function App() {
             onCardDelete={handleCardDelete}
             component={Main}
           />
-          <Route path='/'>
-            {loggedIn ? <Redirect to='/cards' /> : <Redirect to='/sign-in' />}
+          <Route path="/">
+            {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
           </Route>
         </Switch>
         <Footer />
