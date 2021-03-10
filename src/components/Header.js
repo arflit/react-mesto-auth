@@ -1,8 +1,6 @@
 import React from 'react'
 import logo from '../images/logo-white.svg'
 import { Link, NavLink } from 'react-router-dom'
-import menuIcon from '../images/menuicon.png'
-import menuCloseIcon from '../images/menucloseicon.png'
 
 function Header(props) {
   const { email, loggedIn, onSignOut } = props
@@ -14,6 +12,11 @@ function Header(props) {
       return false
     }
   })
+
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
+  function prepareHamburger() {
+    setMenuOpen(!isMenuOpen);
+  }
 
   React.useEffect(() => {
     const onScreenChange = () => {
@@ -32,18 +35,18 @@ function Header(props) {
   }, [])
 
   const signedOut = (
-    <nav className="header__link-container">
+    <nav className="nav">
       <NavLink
         to="/sign-up"
-        className="header__link button"
-        activeClassName="header__link_hidden"
+        className="nav__link button"
+        activeClassName="nav__link_hidden"
       >
         Регистрация
       </NavLink>
       <NavLink
         to="/sign-in"
-        className="header__link button"
-        activeClassName="header__link_hidden"
+        className="nav__link button"
+        activeClassName="nav__link_hidden"
       >
         Войти
       </NavLink>
@@ -51,18 +54,25 @@ function Header(props) {
   )
 
   const signedInDesktop = (
-    <nav className="header__link-container">
-      <p className="header__mail">{email}</p>
+    <nav className="nav">
+      <p className="nav__mail">{email}</p>
       <Link
         to="/sign-in"
-        className="header__link button header__link_shadow"
+        className="nav__link button nav__link_shadow"
         onClick={onSignOut}
       >
         Выйти
       </Link>
     </nav>
   )
-  const signedInMobile = <nav className="header__link-container"></nav>
+
+  const signedInMobile = <nav className="nav">
+    <button className="nav__button" type="button" onClick={prepareHamburger}>
+      <div className={`nav__button-line ${isMenuOpen && 'nav__button-line_closing'}`}></div>
+      <div className={`nav__button-line ${isMenuOpen && 'nav__button-line_closing'}`}></div>
+      <div className={`nav__button-line ${isMenuOpen && 'nav__button-line_closing'}`}></div>
+    </button>
+  </nav>
 
   function menu() {
     if (!loggedIn) {

@@ -1,4 +1,4 @@
-.header__link {
+.nav__link {
   margin: 0;
   font-weight: 500;
   font-size: 18px;
@@ -7,7 +7,7 @@
 }
 
 @media (max-width: 620px) {
-  .header__link {
+  .nav__link {
     font-size: 14px;
   }
 }
