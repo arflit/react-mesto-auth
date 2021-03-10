@@ -6,3 +6,9 @@
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 620px) {
+  .popup__container_tooltip {
+    width: 282px;
+  }
+}
