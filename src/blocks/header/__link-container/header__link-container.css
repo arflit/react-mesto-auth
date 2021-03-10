@@ -3,3 +3,9 @@
   display: flex;
   justify-content: flex-end;
 }
+
+@media (max-width: 620px) {
+  .header__link-container {
+    margin: 34px 30px auto auto;
+  }
+}
