@@ -85,7 +85,6 @@ function App() {
 
   function submit() {
     setSubmitOpen(true)
-
   }
 
   React.useEffect(() => {
