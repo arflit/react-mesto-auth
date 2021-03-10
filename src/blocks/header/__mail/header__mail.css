@@ -4,4 +4,7 @@
   font-size: 18px;
   margin-right: 24px;
   color: white;
+  max-width: 320px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
