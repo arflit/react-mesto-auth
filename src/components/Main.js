@@ -11,12 +11,14 @@ function Main(props) {
     onCardClick,
     onCardLike,
     onCardDelete,
+    isMobile
   } = props
 
 
   const [avatarEditIcon, setAvatarEditIcon] = React.useState(false)
   function showAvatarEditIcon() {
-    setAvatarEditIcon(true)
+   setAvatarEditIcon(true)
+
   }
   function hideAvatarEditIcon() {
     setAvatarEditIcon(false)
@@ -33,6 +35,7 @@ function Main(props) {
             alt="Аватар"
             className="profile__avatar"
             onMouseEnter={showAvatarEditIcon}
+            onClick={onEditAvatar}
           />
           <div
             className={`profile__avatar-edit-button ${

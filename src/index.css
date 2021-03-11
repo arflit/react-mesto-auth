@@ -3,6 +3,7 @@
 @import url(./vendor/fonts/fonts.css);
 /* вся страница и технические блоки для миксов */
 @import url(./blocks/page/page.css);
+@import url(./blocks/page/_menu-opened/page_menu-opened.css);
 @import url(./blocks/button/button.css);
 
 /* шапка сайта */
@@ -12,11 +13,12 @@
 @import url(./blocks/nav/nav.css);
 @import url(./blocks/nav/__link/nav__link.css);
 @import url(./blocks/nav/__link/_hidden/nav__link_hidden.css);
-@import url(./blocks/nav/__link/_shadow/nav__link_shadow.css);
 @import url(./blocks/nav/__mail/nav__mail.css);
 @import url(./blocks/nav/__button/nav__button.css);
 @import url(./blocks/nav/__button-line/nav__button-line.css);
 @import url(./blocks/nav/__button-line/_closing/nav__button-line_closing.css);
+@import url(./blocks/nav/__container/nav__container.css);
+@import url(./blocks/nav/__item/nav__item.css);
 
 
 /* основные секции */
@@ -82,3 +84,8 @@
 /* подвал */
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyright/footer__copyright.css);
+
+/* технические блоки для миксов */
+@import url(./blocks/shadow/shadow.css);
+@import url(./blocks/hidden/hidden.css);
+
