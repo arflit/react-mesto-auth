@@ -91,13 +91,11 @@ function App() {
     setSelectedCard(card)
   }
 
-  function onSubmit() {
-    return Promise.resolve()
+  function onSubmit(card) {
+    setSubmitOpen(true)
+    setDelCard(card)
   }
 
-  function submit() {
-    setSubmitOpen(true)
-  }
 
   React.useEffect(() => {
     const onKeypress = (evt) => {
@@ -207,14 +205,17 @@ function App() {
       })
   }
 
-  function handleCardDelete(card) {
-    const isOwn = card.owner._id === currentUser._id
+  const [deletingCard, setDelCard] = React.useState({});
+
+
+  function handleCardDelete() {
+    const isOwn = deletingCard.owner._id === currentUser._id
     if (isOwn) {
       api
-        .removeCard(card._id)
+        .removeCard(deletingCard._id)
         .then(() => {
           const newCards = cards.filter((c) => {
-            if (c._id === card._id) {
+            if (c._id === deletingCard._id) {
               return false
             } else {
               return true
@@ -231,6 +232,8 @@ function App() {
         `Не удалось удалить карточку: вы не хозяин. Нечего на скрытые кнопки жать!`
       )
     }
+    setDelCard({})
+    closeAllPopups()
   }
 
   function handleCardLike(card) {
@@ -356,7 +359,7 @@ function App() {
               cards={cards}
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardDelete={onSubmit}
               isMobile={isMobile}
               component={Main}
             />
@@ -390,7 +393,7 @@ function App() {
             <SubmitPopup
               isOpen={isSubmitOpen}
               onClose={closeAllPopups}
-              onSubmit={onSubmit}
+              onSubmit={handleCardDelete}
             />
           </div>
 
