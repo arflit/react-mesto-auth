@@ -34,8 +34,8 @@ function Main(props) {
             src={currentUser.avatar}
             alt="Аватар"
             className="profile__avatar"
-            onMouseEnter={!isMobile && showAvatarEditIcon}
-            onClick={isMobile && onEditAvatar}
+            onMouseEnter={(!isMobile) ? showAvatarEditIcon : null}
+            onClick={isMobile ? onEditAvatar : null}
           />
           <div
             className={`profile__avatar-edit-button ${

@@ -8,7 +8,7 @@ function PopupWithForm(props) {
   }
 
   return (
-    <div className={`popup ${isOpen && 'popup_opened'}`} id={name} onClick={handleOverlayClose} >
+    <div className={`popup ${isOpen ? 'popup_opened' : ''}`} id={name} onClick={handleOverlayClose} >
       <div className="popup__container popup__container_form">
         <button
           type="button"

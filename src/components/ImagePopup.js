@@ -10,7 +10,7 @@ function ImagePopup(props) {
 
   return (
     <div
-      className={`popup popup_dark ${_id && 'popup_opened'}`}
+      className={`popup popup_dark ${_id ? 'popup_opened' : ''}`}
       id="popup-bigpicture"
       onClick={handleOverlayClose}
     >

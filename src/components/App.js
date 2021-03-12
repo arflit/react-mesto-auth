@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, Route, Switch, useHistory, Link } from 'react-router-dom'
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 
 import Header from './Header'
 import Main from './Main'
@@ -7,6 +7,7 @@ import Footer from './Footer'
 
 import Login from './Login.js'
 import Register from './Register.js'
+import HamburgerMenu from './HamburgerMenu.js'
 
 import PopupWithTooltip from './PopupWithTooltip'
 import ImagePopup from './ImagePopup'
@@ -39,7 +40,7 @@ function App() {
   })
 
   //информация о пользователе
-  const [email, setEmail] = React.useState('')
+  const [email, setEmail] = React.useState('arflit@gmail.com')
   const [currentUser, setCurrentUser] = React.useState({
     avatar:
       'https://github.com/konjvpaljto/mesto/blob/master/src/images/avatar.jpg?raw=true',
@@ -329,18 +330,9 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Switch>
-        <>
-          <div className="nav__container">
-            <p className="nav__item">{email}</p>
-            <Link
-              to="/sign-in"
-              className="nav__item button shadow"
-              onClick={onSignOut}
-            >
-              Выйти
-            </Link>
-          </div>
-          <div className={`page ${isMenuOpen && 'page_menu-opened'}`}>
+
+          <div className={isMenuOpen ? 'page page_menu_opened' : 'page'}>
+            <HamburgerMenu onSignOut={onSignOut} email={email} isMenuOpen={isMenuOpen} />
             <Header
               email={email}
               loggedIn={loggedIn}
@@ -401,7 +393,7 @@ function App() {
               onSubmit={onSubmit}
             />
           </div>
-        </>
+
       </Switch>
     </CurrentUserContext.Provider>
   )
