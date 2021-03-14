@@ -55,38 +55,38 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({})
 
   const [avatarPopupState, setAvatarPopupState] = React.useState({
-    open: false
+    open: false,
   })
   const [profilePopupState, setProfilePopupState] = React.useState({
-    open: false
+    open: false,
   })
-  const [submitPopupState, setSubmitPopupState]= React.useState({
-    open: false
+  const [submitPopupState, setSubmitPopupState] = React.useState({
+    open: false,
   })
   const [addPlacePopupState, setAddPlacePopupState] = React.useState({
-    open: false
+    open: false,
   })
 
   //функции управления попапами
   function closeAllPopups() {
     setAvatarPopupState({
       ...avatarPopupState,
-      open: false
+      open: false,
     })
     setProfilePopupState({
       ...profilePopupState,
-      open: false
+      open: false,
     })
     setAddPlacePopupState({
       ...addPlacePopupState,
-      open: false
+      open: false,
     })
     setTooltipOpen(false)
     setTooltipMessage('')
     setSelectedCard({})
     setSubmitPopupState({
       ...submitPopupState,
-      open: false
+      open: false,
     })
   }
 
@@ -99,20 +99,21 @@ function App() {
   function handleEditAvatarClick() {
     setAvatarPopupState({
       ...avatarPopupState,
-      open: true
+      open: true,
     })
   }
 
   function handleProfileClick() {
     setProfilePopupState({
       ...profilePopupState,
-      open: true
-    })  }
+      open: true,
+    })
+  }
 
   function handleAddPlaceClick() {
     setAddPlacePopupState({
       ...addPlacePopupState,
-      open: true
+      open: true,
     })
   }
 
@@ -123,7 +124,7 @@ function App() {
   function onSubmit(card) {
     setSubmitPopupState({
       ...submitPopupState,
-      open: true
+      open: true,
     })
     setDelCard(card)
   }
@@ -362,21 +363,21 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Switch>
-        <div className={isMenuOpen ? 'page page_menu_opened' : 'page'}>
-          <HamburgerMenu
-            onSignOut={onSignOut}
-            email={email}
-            isMenuOpen={isMenuOpen}
-          />
-          <Header
-            email={email}
-            loggedIn={loggedIn}
-            onSignOut={onSignOut}
-            isMenuOpen={isMenuOpen}
-            prepareHamburger={prepareHamburger}
-            isMobile={isMobile}
-          />
+      <div className={isMenuOpen ? 'page page_menu_opened' : 'page'}>
+        <HamburgerMenu
+          onSignOut={onSignOut}
+          email={email}
+          isMenuOpen={isMenuOpen}
+        />
+        <Header
+          email={email}
+          loggedIn={loggedIn}
+          onSignOut={onSignOut}
+          isMenuOpen={isMenuOpen}
+          prepareHamburger={prepareHamburger}
+          isMobile={isMobile}
+        />
+        <Switch>
           <Route path="/sign-in">
             <Login onSignIn={onSignIn} />
           </Route>
@@ -393,43 +394,42 @@ function App() {
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
             onCardDelete={onSubmit}
-            isMobile={isMobile}
             component={Main}
           />
           <Route path="/">
             {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
           </Route>
+        </Switch>
 
-          <Footer />
-          <PopupWithTooltip
-            isOpen={isTooltipOpen}
-            onClose={closeAllPopups}
-            result={tooltipResult}
-            message={tooltipMessage}
-          />
-          <EditAvatarPopup
-            state={avatarPopupState}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-          <EditProfilePopup
-            state={profilePopupState}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-          <AddPlacePopup
-            state={addPlacePopupState}
-            onClose={closeAllPopups}
-            onAddCard={handleAddPlace}
-          />
-          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-          <SubmitPopup
-            state={submitPopupState}
-            onClose={closeAllPopups}
-            onSubmit={handleCardDelete}
-          />
-        </div>
-      </Switch>
+        <Footer />
+        <PopupWithTooltip
+          isOpen={isTooltipOpen}
+          onClose={closeAllPopups}
+          result={tooltipResult}
+          message={tooltipMessage}
+        />
+        <EditAvatarPopup
+          state={avatarPopupState}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <EditProfilePopup
+          state={profilePopupState}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <AddPlacePopup
+          state={addPlacePopupState}
+          onClose={closeAllPopups}
+          onAddCard={handleAddPlace}
+        />
+        <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+        <SubmitPopup
+          state={submitPopupState}
+          onClose={closeAllPopups}
+          onSubmit={handleCardDelete}
+        />
+      </div>
     </CurrentUserContext.Provider>
   )
 }

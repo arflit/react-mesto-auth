@@ -11,14 +11,11 @@ function Main(props) {
     onCardClick,
     onCardLike,
     onCardDelete,
-    isMobile
   } = props
-
 
   const [avatarEditIcon, setAvatarEditIcon] = React.useState(false)
   function showAvatarEditIcon() {
-   setAvatarEditIcon(true)
-
+    setAvatarEditIcon(true)
   }
   function hideAvatarEditIcon() {
     setAvatarEditIcon(false)
@@ -29,20 +26,21 @@ function Main(props) {
   return (
     <main className="content">
       <section className="profile">
-        <div className="profile__avatar-container">
+        <div
+          className="profile__avatar-container"
+          onClick={onEditAvatar}
+          onMouseEnter={showAvatarEditIcon}
+          onMouseLeave={hideAvatarEditIcon}
+        >
           <img
             src={currentUser.avatar}
             alt="Аватар"
             className="profile__avatar"
-            onMouseEnter={(!isMobile) ? showAvatarEditIcon : null}
-            onClick={isMobile ? onEditAvatar : null}
           />
           <div
             className={`profile__avatar-edit-button ${
               avatarEditIcon ? 'profile__avatar-edit-button_visible' : ''
             }`}
-            onClick={onEditAvatar}
-            onMouseLeave={hideAvatarEditIcon}
           ></div>
         </div>
         <div className="profile__info-container">
