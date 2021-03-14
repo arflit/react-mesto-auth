@@ -96,7 +96,6 @@ function App() {
     setDelCard(card)
   }
 
-
   React.useEffect(() => {
     const onKeypress = (evt) => {
       if (evt.key === 'Escape') {
@@ -205,8 +204,7 @@ function App() {
       })
   }
 
-  const [deletingCard, setDelCard] = React.useState({});
-
+  const [deletingCard, setDelCard] = React.useState({})
 
   function handleCardDelete() {
     const isOwn = deletingCard.owner._id === currentUser._id
@@ -318,8 +316,8 @@ function App() {
       if (window.innerWidth < 620) {
         setMobile(true)
       } else {
-        setMobile(false);
-        setMenuOpen(false);
+        setMobile(false)
+        setMenuOpen(false)
       }
     }
 
@@ -333,70 +331,72 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Switch>
+        <div className={isMenuOpen ? 'page page_menu_opened' : 'page'}>
+          <HamburgerMenu
+            onSignOut={onSignOut}
+            email={email}
+            isMenuOpen={isMenuOpen}
+          />
+          <Header
+            email={email}
+            loggedIn={loggedIn}
+            onSignOut={onSignOut}
+            isMenuOpen={isMenuOpen}
+            prepareHamburger={prepareHamburger}
+            isMobile={isMobile}
+          />
+          <Route path="/sign-in">
+            <Login onSignIn={onSignIn} />
+          </Route>
+          <Route path="/sign-up">
+            <Register onSignUp={onSignUp} />
+          </Route>
+          <ProtectedRoute
+            path="/cards"
+            loggedIn={loggedIn}
+            onEditProfile={handleProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            cards={cards}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={onSubmit}
+            isMobile={isMobile}
+            component={Main}
+          />
+          <Route path="/">
+            {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
+          </Route>
 
-          <div className={isMenuOpen ? 'page page_menu_opened' : 'page'}>
-            <HamburgerMenu onSignOut={onSignOut} email={email} isMenuOpen={isMenuOpen} />
-            <Header
-              email={email}
-              loggedIn={loggedIn}
-              onSignOut={onSignOut}
-              isMenuOpen={isMenuOpen}
-              prepareHamburger={prepareHamburger}
-              isMobile={isMobile}
-            />
-            <Route path="/sign-in">
-              <Login onSignIn={onSignIn} />
-            </Route>
-            <Route path="/sign-up">
-              <Register onSignUp={onSignUp} />
-            </Route>
-            <ProtectedRoute
-              path="/cards"
-              loggedIn={loggedIn}
-              onEditProfile={handleProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              cards={cards}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={onSubmit}
-              isMobile={isMobile}
-              component={Main}
-            />
-            <Route path="/">
-              {loggedIn ? <Redirect to="/cards" /> : <Redirect to="/sign-in" />}
-            </Route>
-
-            <Footer />
-            <PopupWithTooltip
-              isOpen={isTooltipOpen}
-              onClose={closeAllPopups}
-              result={tooltipResult}
-              message={tooltipMessage}
-            />
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
-            <EditProfilePopup
-              isOpen={isProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-            />
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddCard={handleAddPlace}
-            />
-            <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-            <SubmitPopup
-              isOpen={isSubmitOpen}
-              onClose={closeAllPopups}
-              onSubmit={handleCardDelete}
-            />
-          </div>
-
+          <Footer />
+          <PopupWithTooltip
+            isOpen={isTooltipOpen}
+            onClose={closeAllPopups}
+            result={tooltipResult}
+            message={tooltipMessage}
+          />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <EditProfilePopup
+            isOpen={isProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddCard={handleAddPlace}
+          />
+          <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+          <SubmitPopup
+            isOpen={isSubmitOpen}
+            onClose={closeAllPopups}
+            onSubmit={handleCardDelete}
+          />
+        </div>
       </Switch>
     </CurrentUserContext.Provider>
   )
