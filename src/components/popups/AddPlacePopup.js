@@ -2,7 +2,8 @@ import React from 'react'
 import PopupWithForm from './PopupWithForm'
 
 function AddPlacePopup(props) {
-  const { isOpen, onClose, onAddCard } = props
+  const { state, onClose, onAddCard } = props
+  const { open } = state
 
   const [place, setPlace] = React.useState('')
   function handleChangePlace(e) {
@@ -26,7 +27,7 @@ function AddPlacePopup(props) {
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
+      isOpen={open}
       onClose={onClose}
       onSubmit={handleSubmit}
       title="Новое место"

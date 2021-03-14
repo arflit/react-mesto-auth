@@ -2,7 +2,8 @@ import React from 'react'
 import PopupWithForm from './PopupWithForm'
 
 function SubmitPopup(props) {
-  const { isOpen, onClose, onSubmit } = props
+  const { state, onClose, onSubmit } = props
+  const { open } = state
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -11,7 +12,7 @@ function SubmitPopup(props) {
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
+      isOpen={open}
       onClose={onClose}
       onSubmit={handleSubmit}
       title="Вы уверены?"

@@ -52,21 +52,42 @@ function App() {
   const [isTooltipOpen, setTooltipOpen] = React.useState(false)
   const [tooltipResult, setTooltipResult] = React.useState(false)
   const [tooltipMessage, setTooltipMessage] = React.useState('')
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
-  const [isProfilePopupOpen, setProfilePopupOpen] = React.useState(false)
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
   const [selectedCard, setSelectedCard] = React.useState({})
-  const [isSubmitOpen, setSubmitOpen] = React.useState(false)
+
+  const [avatarPopupState, setAvatarPopupState] = React.useState({
+    open: false
+  })
+  const [profilePopupState, setProfilePopupState] = React.useState({
+    open: false
+  })
+  const [submitPopupState, setSubmitPopupState]= React.useState({
+    open: false
+  })
+  const [addPlacePopupState, setAddPlacePopupState] = React.useState({
+    open: false
+  })
 
   //функции управления попапами
   function closeAllPopups() {
-    setEditAvatarPopupOpen(false)
-    setProfilePopupOpen(false)
-    setAddPlacePopupOpen(false)
+    setAvatarPopupState({
+      ...avatarPopupState,
+      open: false
+    })
+    setProfilePopupState({
+      ...profilePopupState,
+      open: false
+    })
+    setAddPlacePopupState({
+      ...addPlacePopupState,
+      open: false
+    })
     setTooltipOpen(false)
     setTooltipMessage('')
     setSelectedCard({})
-    setSubmitOpen(false)
+    setSubmitPopupState({
+      ...submitPopupState,
+      open: false
+    })
   }
 
   function handleTooltipOpen(result, message) {
@@ -76,15 +97,23 @@ function App() {
   }
 
   function handleEditAvatarClick() {
-    setEditAvatarPopupOpen(true)
+    setAvatarPopupState({
+      ...avatarPopupState,
+      open: true
+    })
   }
 
   function handleProfileClick() {
-    setProfilePopupOpen(true)
-  }
+    setProfilePopupState({
+      ...profilePopupState,
+      open: true
+    })  }
 
   function handleAddPlaceClick() {
-    setAddPlacePopupOpen(true)
+    setAddPlacePopupState({
+      ...addPlacePopupState,
+      open: true
+    })
   }
 
   function handleCardClick(card) {
@@ -92,7 +121,10 @@ function App() {
   }
 
   function onSubmit(card) {
-    setSubmitOpen(true)
+    setSubmitPopupState({
+      ...submitPopupState,
+      open: true
+    })
     setDelCard(card)
   }
 
@@ -376,23 +408,23 @@ function App() {
             message={tooltipMessage}
           />
           <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
+            state={avatarPopupState}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
           />
           <EditProfilePopup
-            isOpen={isProfilePopupOpen}
+            state={profilePopupState}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
           <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
+            state={addPlacePopupState}
             onClose={closeAllPopups}
             onAddCard={handleAddPlace}
           />
           <ImagePopup onClose={closeAllPopups} card={selectedCard} />
           <SubmitPopup
-            isOpen={isSubmitOpen}
+            state={submitPopupState}
             onClose={closeAllPopups}
             onSubmit={handleCardDelete}
           />
