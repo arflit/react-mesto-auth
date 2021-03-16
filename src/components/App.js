@@ -49,11 +49,13 @@ function App() {
   })
 
   //состояние попапов
-  const [isTooltipOpen, setTooltipOpen] = React.useState(false)
-  const [tooltipResult, setTooltipResult] = React.useState(false)
-  const [tooltipMessage, setTooltipMessage] = React.useState('')
   const [selectedCard, setSelectedCard] = React.useState({})
 
+  const [tooltipPopupState, setTooltipPopupState] = React.useState({
+    open: false,
+    result: false,
+    message: '',
+  })
   const [avatarPopupState, setAvatarPopupState] = React.useState({
     open: false,
   })
@@ -81,8 +83,12 @@ function App() {
       ...addPlacePopupState,
       open: false,
     })
-    setTooltipOpen(false)
-    setTooltipMessage('')
+    setTooltipPopupState({
+      ...tooltipPopupState,
+      open: false,
+      result: false,
+      message: '',
+    })
     setSelectedCard({})
     setSubmitPopupState({
       ...submitPopupState,
@@ -91,9 +97,11 @@ function App() {
   }
 
   function handleTooltipOpen(result, message) {
-    setTooltipResult(result)
-    setTooltipOpen(true)
-    setTooltipMessage(message)
+    setTooltipPopupState({
+      open: true,
+      result: result,
+      message: message,
+    })
   }
 
   function handleEditAvatarClick() {
@@ -402,12 +410,7 @@ function App() {
         </Switch>
 
         <Footer />
-        <PopupWithTooltip
-          isOpen={isTooltipOpen}
-          onClose={closeAllPopups}
-          result={tooltipResult}
-          message={tooltipMessage}
-        />
+        <PopupWithTooltip state={tooltipPopupState} onClose={closeAllPopups} />
         <EditAvatarPopup
           state={avatarPopupState}
           onClose={closeAllPopups}
