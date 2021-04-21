@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "scp -r ./build/* arflit@178.154.245.130:/home/praktikum/mesto-react-auth"
+    "deploy": "scp -r ./build/* arflit@178.154.245.130:/home/arflit/mesto-react-auth"
   },
   "eslintConfig": {
     "extends": [
