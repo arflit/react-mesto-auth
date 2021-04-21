@@ -12,6 +12,7 @@ class Api {
     if (method === 'GET') {
       return fetch(`${this._baseUrl}${urlEnd}`, {
         method: method,
+        credentials: 'include',
         headers: this._header(customHeaders),
       }).then((res) => {
         if (res.ok) {
@@ -22,6 +23,7 @@ class Api {
     } else {
       return fetch(`${this._baseUrl}${urlEnd}`, {
         method: method,
+        credentials: 'include',
         headers: this._header(customHeaders),
         body: JSON.stringify(body),
       }).then((res) => {

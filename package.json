@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "scp -r ./build/* praktikum@84.201.172.240:/home/praktikum/mesto-react-auth"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +49,5 @@
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1"
   },
-  "homepage": "https://konjvpaljto.github.io/react-mesto-auth/"
+  "homepage": "https://konjvpaljto.github.io/mesto-react-auth/"
 }
